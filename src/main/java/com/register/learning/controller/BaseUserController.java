@@ -1,6 +1,7 @@
 package com.register.learning.controller;
 
 import com.register.learning.dto.BaseUserDto;
+import com.register.learning.dto.LogInCredentialDto;
 import com.register.learning.service.iface.BaseUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -19,5 +20,10 @@ public class BaseUserController {
     @PostMapping("/register")
     public Boolean register(@RequestBody BaseUserDto baseUserDto, BindingResult bindingResult) {
         return baseUserService.save(baseUserDto, bindingResult);
+    }
+
+    @PostMapping("/sign-in")
+    public Boolean singIn(@RequestBody LogInCredentialDto logInCredentialDto, BindingResult bindingResult) {
+        return baseUserService.logIn(logInCredentialDto, bindingResult);
     }
 }
