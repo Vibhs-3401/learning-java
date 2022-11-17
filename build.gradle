@@ -1,7 +1,7 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.7.5'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
 group = 'com.register'
@@ -9,23 +9,34 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
-	implementation group: 'org.modelmapper', name: 'modelmapper', version: '0.7.5'
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.7.0'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
 
-	compileOnly 'org.projectlombok:lombok:1.18.24'
-	runtimeOnly 'mysql:mysql-connector-java'
-	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+//    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
+//    implementation 'org.springframework.security:spring-security-core'
+//// https://mvnrepository.com/artifact/org.springframework.security/spring-security-web
+//    implementation 'org.springframework.security:spring-security-web'
+//    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
+//    implementation 'org.springframework.security:spring-security-config'
+
+
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '0.7.5'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.7.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    runtimeOnly 'mysql:mysql-connector-java'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
