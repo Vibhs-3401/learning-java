@@ -1,5 +1,6 @@
 package com.register.learning.config;
 
+import com.register.learning.constants.SecurityConstants;
 import com.register.learning.jwt.JwtAuthenticationEntryPoint;
 import com.register.learning.jwt.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests().antMatchers("/authenticate", "/user/register").permitAll()
+                .and().authorizeRequests().antMatchers(SecurityConstants.ALLOWED_URLS).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
