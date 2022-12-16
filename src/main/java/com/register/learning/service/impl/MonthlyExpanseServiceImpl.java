@@ -1,56 +1,40 @@
 package com.register.learning.service.impl;
 
 import com.register.learning.entity.MonthlyExpanse;
+import com.register.learning.repositories.MonthlyExpanseRepository;
+import com.register.learning.service.ExcelDataReader;
 import com.register.learning.service.iface.MonthlyExpanseService;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
 public class MonthlyExpanseServiceImpl implements MonthlyExpanseService {
 
-    @Override    // check whether given file is excel or not
-    public boolean checkExcelFormat(MultipartFile file) {
-        String contentType = file.getContentType();
-        return contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-    }
+
+    @Autowired
+    private MonthlyExpanseRepository monthlyExpanseRepository;
 
     @Override
-    public List<MonthlyExpanse> convertExcelToList(InputStream inputStream) {
-        List<MonthlyExpanse> list = new ArrayList<>();
-        try {
-            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
-            XSSFSheet sheet = xssfWorkbook.getSheet("data");
-            int rowNumber = 0;
-            Iterator<Row> iterator = sheet.iterator();
-            while (iterator.hasNext()) {
-                Row row = iterator.next();
-                if(rowNumber == 0) {
-                    rowNumber++;
-                    continue;
-                }
-                Iterator<Cell> cells = row.iterator();
-                int cid = 0;
-                while (cells.hasNext()) {
-                    Cell cell = cells.next();
-                    switch (cid) {
-                        case 0:
-                    }
-                }
+    public ResponseEntity<Object> save(MultipartFile file) {
+        if(ExcelDataReader.checkExcelFormat(file)) {
+            try {
+                List<MonthlyExpanse> monthlyExpanses = ExcelDataReader.convertExcelToList(file.getInputStream());
+                monthlyExpanseRepository.saveAll(monthlyExpanses);
+                return new ResponseEntity<>("your data saved successfully", HttpStatus.ACCEPTED);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
             }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
         }
-
-        return list;
+        return new ResponseEntity<>("Please upload excel file", HttpStatus.BAD_REQUEST);
+    }
+    @Override
+    public ResponseEntity<Object> getAllExpanses() {
+        return new ResponseEntity<>(monthlyExpanseRepository.findAll(), HttpStatus.ACCEPTED);
     }
 }

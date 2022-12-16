@@ -34,6 +34,7 @@ public class SwaggerConfiguration {
                 .securityContexts(Arrays.asList(jwtSecurityContext()));
     }
 
+//    basePackage("com/register/learning/controller/")
     private ApiInfo apiInfo() {
         return new ApiInfo("Learning jwt",
                 "Learning jwt and implemented swagger for the second time",

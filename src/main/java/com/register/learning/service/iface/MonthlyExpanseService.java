@@ -1,14 +1,11 @@
 package com.register.learning.service.iface;
 
-import com.register.learning.entity.MonthlyExpanse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.InputStream;
-import java.util.List;
 
 public interface MonthlyExpanseService {
 
-    boolean checkExcelFormat(MultipartFile file);
+    ResponseEntity<Object> save(MultipartFile file);
 
-    List<MonthlyExpanse> convertExcelToList(InputStream inputStream);
+    ResponseEntity<Object> getAllExpanses();
 }
